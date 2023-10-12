@@ -8,21 +8,19 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Inherit some common lineage stuff.
+# Inherit some common Lineage stuff.
 $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
 # Inherit from spes device
 $(call inherit-product, device/xiaomi/spes/device.mk)
 
+# Device identifier
 PRODUCT_NAME := lineage_spes
 PRODUCT_DEVICE := spes
-PRODUCT_MANUFACTURER := Xiaomi
 PRODUCT_BRAND := Redmi
 PRODUCT_MODEL := Redmi Note 11
+PRODUCT_MANUFACTURER := Xiaomi
 
 PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
 
-PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRIVATE_BUILD_DESC="spes-user 11 RKQ1.211001.001 V13.0.7.0.RGKMIXM release-keys"
-
-BUILD_FINGERPRINT := Redmi/spes_global/spes:11/RKQ1.211001.001/V13.0.7.0.RGKMIXM:user/release-keys
+BUILD_FINGERPRINT := Redmi/spes/spes:13/TKQ1.221114.001/V14.0.2.0.TGCMIXM:user/release-keys

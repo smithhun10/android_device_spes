@@ -5,7 +5,7 @@
 //
 
 cc_library_static {
-    name: "libinit_xiaomi_spes",
+    name: "libinit_xiaomi",
     srcs: [
         "libinit_dalvik_heap.cpp",
         "libinit_variant.cpp",
@@ -19,7 +19,10 @@ cc_library_static {
 cc_library_static {
     name: "init_xiaomi_spes",
     srcs: ["init_xiaomi_spes.cpp"],
-    whole_static_libs: ["libinit_xiaomi_spes"],
-    include_dirs: ["system/core/init"],
+    whole_static_libs: ["libinit_xiaomi"],
+    include_dirs: [
+        "system/libbase/include",
+        "system/core/init",
+    ],
     recovery_available: true,
 }

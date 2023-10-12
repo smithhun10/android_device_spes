@@ -1,21 +1,20 @@
 #!/bin/bash
 #
-# Copyright (C) 2016 The CyanogenMod Project
-# Copyright (C) 2017-2020 The LineageOS Project
+# Copyright (C) 2022 The LineageOS Project
 #
 # SPDX-License-Identifier: Apache-2.0
 #
 
 set -e
 
-export DEVICE=spes
-export VENDOR=xiaomi
+DEVICE=spes
+VENDOR=xiaomi
 
 # Load extract_utils and do some sanity checks
 MY_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "${MY_DIR}" ]]; then MY_DIR="${PWD}"; fi
 
-ANDROID_ROOT="${MY_DIR}/../../.."
+ANDROID_ROOT="${MY_DIR}"/../../..
 
 HELPER="${ANDROID_ROOT}/tools/extract-utils/extract_utils.sh"
 if [ ! -f "${HELPER}" ]; then
@@ -26,9 +25,6 @@ source "${HELPER}"
 
 # Default to sanitizing the vendor folder before extraction
 CLEAN_VENDOR=true
-
-SECTION=
-KANG=
 
 while [ "${#}" -gt 0 ]; do
     case "${1}" in
@@ -52,6 +48,17 @@ done
 if [ -z "${SRC}" ]; then
     SRC="adb"
 fi
+
+function blob_fixup() {
+    case "${1}" in
+        vendor/lib64/vendor.qti.hardware.camera.postproc@1.0-service-impl.so)
+            "${SIGSCAN}" -p "13 0A 00 94" -P "1F 20 03 D5" -f "${2}"
+            ;;
+        vendor/lib64/camera/components/com.qti.node.mialgocontrol.so)
+            llvm-strip --strip-debug  "${2}"
+            ;;
+    esac
+}
 
 # Initialize the helper for common device
 setup_vendor "${DEVICE}" "${VENDOR}" "${ANDROID_ROOT}" true "${CLEAN_VENDOR}"
